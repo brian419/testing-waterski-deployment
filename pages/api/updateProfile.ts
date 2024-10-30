@@ -2,9 +2,8 @@ require('dotenv').config();
 
 // page for updating the profile
 import type { NextApiRequest, NextApiResponse } from 'next';
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require('../../db'); 
+import jwt from 'jsonwebtoken';
+import db from '../../db';
 
 
 const updateUserProfile = async (email: string, payload: any) => {
