@@ -1,4 +1,6 @@
-require('dotenv').config();
+// require('dotenv').config();
+
+import 'dotenv/config';
 
 // page for updating the profile
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -6,7 +8,18 @@ import jwt from 'jsonwebtoken';
 import db from '../../db';
 
 
-const updateUserProfile = async (email: string, payload: any) => {
+interface UserProfilePayload {
+    Fname?: string;
+    Lname?: string;
+    GradYear?: string;
+    Major?: string;
+    Phone?: string;
+    Email?: string;
+    CWID?: string;
+}
+
+
+const updateUserProfile = async (email: string, payload: UserProfilePayload) => {
     return new Promise((resolve, reject) => {
         let query = `UPDATE User SET `;
         const values = [];
