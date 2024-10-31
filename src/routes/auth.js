@@ -1,8 +1,10 @@
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
-const { login } = require('../auth/login');
+const { login } = require('../auth/login.js');
 const { signup } = require('../auth/signup');
+
+
 
 const { getRoster } = require('../auth/roster');
 const { getSetList, registerReservation, deleteReservation } = require('../auth/setlist');
@@ -44,3 +46,4 @@ router.post('/meetingnotes', upload.single('file'), addMeetingNote);
 router.delete('/meetingnotes/:id', deleteMeetingNote);
 
 module.exports = router;
+

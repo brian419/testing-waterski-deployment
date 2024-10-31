@@ -110,14 +110,15 @@ const majors = [
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false); 
+    const [showPassword, setShowPassword] = useState(false);
     const [fname, setFname] = useState('');
     const [lname, setLname] = useState('');
     const [cwid, setCwid] = useState('');
     const [phone, setPhone] = useState('');
     const [gradYear, setGradYear] = useState('Freshman');
     const [selectedMajor, setSelectedMajor] = useState(null);
-    const [PfpImage, setProfilePicture] = useState(null);
+    // const [PfpImage, setProfilePicture] = useState(null);
+    const [PfpImage, setProfilePicture] = useState<File | null>(null);
     const [isLogin, setIsLogin] = useState(true);
     const router = useRouter();
 
@@ -125,8 +126,8 @@ export default function LoginPage() {
         document.title = 'UA Waterski - Login/Sign Up';
     }, []);
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (file) {
             if (file.size > 4 * 1024 * 1024) {
                 alert("File size exceeds 4 MB limit. Please choose a smaller image.");
@@ -145,7 +146,7 @@ export default function LoginPage() {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const endpoint = isLogin ? 'http://localhost:4000/auth/login' : 'http://localhost:4000/auth/signup';
 
@@ -158,7 +159,7 @@ export default function LoginPage() {
             } catch (error) {
                 console.error('Error:', error.response?.data?.message || error.message);
                 document.getElementById('errorBox')?.setAttribute("style", "display: block;");
-                document.getElementById('errorText').innerText = "Invalid email or password. Please try again.";
+                document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
         } else {
             const formData = new FormData();
@@ -169,14 +170,13 @@ export default function LoginPage() {
             formData.append('cwid', cwid);
             formData.append('phone', phone);
             formData.append('gradYear', gradYear);
-            formData.append('major', selectedMajor.value);
+            formData.append('major', selectedMajor?.value || '');
 
             if (PfpImage) {
                 formData.append('pfpimage', PfpImage);
             }
 
             try {
-
                 await axios.post(endpoint, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
@@ -187,12 +187,13 @@ export default function LoginPage() {
         }
     };
 
+
     return (
         <div className='login-page flex items-center justify-center min-h-screen bg-[#ffffff]'>
             <div className="flex flex-row w-full h-full">
                 <div className="w-2/3 flex flex-col justify-center items-center w-1/2 pr-0">
-                    <div className="mb-8" style={{height: 'auto', width: '300px'}}>
-                        <Image src={SkiBamaLogo} alt="Ski Bama Logo"/>
+                    <div className="mb-8" style={{ height: 'auto', width: '300px' }}>
+                        <Image src={SkiBamaLogo} alt="Ski Bama Logo" />
                     </div>
 
                     <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-black mt-[-40px]'>
@@ -229,7 +230,7 @@ export default function LoginPage() {
                             />
                             <div className="relative">
                                 <input
-                                    type={showPassword ? 'text' : 'password'} 
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

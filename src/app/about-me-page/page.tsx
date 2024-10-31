@@ -10,7 +10,7 @@ export default function AboutMe() {
     
     useEffect(() => {
         const getData = async () => {
-            const data = await fetchSheetData();
+            const data = await fetchSheetData("AboutMe");
             if (data) {
                 setSheetData(data);
             }
