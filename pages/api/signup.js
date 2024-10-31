@@ -59,6 +59,7 @@ const signup = async (req, res) => {
     const pfpimage = req.file ? req.file.buffer : null;
 
     try {
+        console.log('password at try block 1:', password);
         db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
             if (err) {
                 console.error('Database query error:', err);
@@ -70,6 +71,7 @@ const signup = async (req, res) => {
             }
 
             try {
+                console.log('password at try block 2:', password);
                 const salt = await bcrypt.genSalt(10);
                 console.log("Password received:", password);
                 const hashedPassword = await bcrypt.hash(password, salt);
