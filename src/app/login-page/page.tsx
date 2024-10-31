@@ -202,7 +202,7 @@ export default function LoginPage() {
             //         console.error('An unexpected error occurred:', error);
             //     }
             // }
-
+            // trying try catch without headers
             try {
                 await axios.post(endpoint, formData); 
                 setIsLogin(true);
