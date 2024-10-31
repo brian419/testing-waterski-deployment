@@ -155,7 +155,7 @@ export default function LoginPage() {
         e.preventDefault();
         const endpoint = isLogin ? `${APP_URL}api/login` : `${APP_URL}api/signup`;
         console.log('endpoint:', endpoint);
-    
+
         if (isLogin) {
             const payload = { email, password };
             try {
@@ -170,7 +170,7 @@ export default function LoginPage() {
                     errorMessage = error.message;
                 }
                 console.error('Error:', errorMessage);
-    
+
                 document.getElementById('errorBox')?.setAttribute("style", "display: block;");
                 document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
@@ -185,15 +185,26 @@ export default function LoginPage() {
             formData.append('phone', phone);
             formData.append('gradYear', gradYear);
             formData.append('major', selectedMajor?.value || '');
-    
+
             if (PfpImage) {
                 formData.append('pfpimage', PfpImage);
             }
-    
+
+            // try {
+            //     await axios.post(endpoint, formData, {
+            //         headers: { 'Content-Type': 'multipart/form-data' },
+            //     });
+            //     setIsLogin(true);
+            // } catch (error) {
+            //     if (axios.isAxiosError(error)) {
+            //         console.error('Error:', error.response?.data?.message || error.message);
+            //     } else {
+            //         console.error('An unexpected error occurred:', error);
+            //     }
+            // }
+
             try {
-                await axios.post(endpoint, formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
+                await axios.post(endpoint, formData); 
                 setIsLogin(true);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
@@ -202,10 +213,11 @@ export default function LoginPage() {
                     console.error('An unexpected error occurred:', error);
                 }
             }
+
         }
     };
-    
-    
+
+
 
 
     return (
