@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const db = require('../../db');  
+const db = require('../../../db');
 
 module.exports.signup = async (req, res) => {
     const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;

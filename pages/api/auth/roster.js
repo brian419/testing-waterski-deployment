@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../db');
+const db = require('../../../db');
 
 module.exports.getRoster = async (req, res) => {
     db.query('SELECT Fname, Lname, GradYear, MemberType, Major, Phone, Email, PfpImage FROM User', (err, results) => {
