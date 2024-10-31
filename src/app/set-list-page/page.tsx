@@ -86,7 +86,7 @@ const deleteReservation = async (date: Date) => {
                 Authorization: `Bearer ${token}`
             },
             data: {
-                'reserveDate': date.getTime
+                'reserveDate': date.getTime() 
             }
         };
 
@@ -98,7 +98,8 @@ const deleteReservation = async (date: Date) => {
     } finally {
         window.location.reload();
     }
-}
+};
+
 
 function popupContent(info: TeamMember) {
     return (
