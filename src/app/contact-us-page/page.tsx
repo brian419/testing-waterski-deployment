@@ -1,5 +1,6 @@
 "use client";
 import {useEffect, useState} from 'react';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 export default function ContactUs () {
     const [name, setName] = useState('');
@@ -16,8 +17,12 @@ export default function ContactUs () {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // const apiUrl = process.env.NODE_ENV === 'production'
+        //     ? 'https://testing-waterski-deployment.vercel.app/api/sendEmail'
+        //     : '/api/sendEmail';
+
         const apiUrl = process.env.NODE_ENV === 'production'
-            ? 'http://localhost:4000/api/sendEmail'
+            ? `${APP_URL}/api/sendEmail`
             : '/api/sendEmail';
 
         try {
