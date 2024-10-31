@@ -149,8 +149,10 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const endpoint = isLogin ? 'http://localhost:4000/auth/login' : 'http://localhost:4000/auth/signup';
-
+        const endpoint = isLogin 
+            ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/login` 
+            : `${process.env.NEXT_PUBLIC_APP_URL}/auth/signup`;
+    
         if (isLogin) {
             const payload = { email, password };
             try {
@@ -165,11 +167,11 @@ export default function LoginPage() {
                     errorMessage = error.message;
                 }
                 console.error('Error:', errorMessage);
-
+    
                 document.getElementById('errorBox')?.setAttribute("style", "display: block;");
                 document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
-
+    
         } else {
             const formData = new FormData();
             formData.append('email', email);
@@ -180,11 +182,11 @@ export default function LoginPage() {
             formData.append('phone', phone);
             formData.append('gradYear', gradYear);
             formData.append('major', selectedMajor?.value || '');
-
+    
             if (PfpImage) {
                 formData.append('pfpimage', PfpImage);
             }
-
+    
             try {
                 await axios.post(endpoint, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
@@ -199,6 +201,7 @@ export default function LoginPage() {
             }
         }
     };
+    
 
 
     return (
