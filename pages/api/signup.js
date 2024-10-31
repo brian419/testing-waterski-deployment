@@ -70,6 +70,7 @@ const signup = async (req, res) => {
 
             try {
                 const salt = await bcrypt.genSalt(10);
+                console.log("Password received:", password);
                 const hashedPassword = await bcrypt.hash(password, salt);
 
                 db.query(
