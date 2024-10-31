@@ -153,8 +153,7 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
     
-        // dynamically define endpoint based on environment
-        const endpoint = isLogin ? `${APP_URL}/api/login` : `${APP_URL}/api/signup`;
+        const endpoint = isLogin ? `${APP_URL}/api/auth/login` : `${APP_URL}/api/auth/signup`;
     
         if (isLogin) {
             const payload = { email, password };

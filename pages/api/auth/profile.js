@@ -3,12 +3,12 @@ require('dotenv').config();
 
 const express = require('express');
 const router = express.Router();
-const db = require('../../db');
-const jwt = require('jsonwebtoken');  
+const db = require('../../../db');
+const jwt = require('jsonwebtoken');
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];  
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (token == null) {
         return res.status(401).json({ message: 'Unauthorized, no token provided' });
@@ -21,7 +21,7 @@ const authenticateJWT = (req, res, next) => {
         req.user = user;  // attaches user information to request
         next();
     });
-    
+
 };
 
 // this is the profile route that is used to get the user's profile information
