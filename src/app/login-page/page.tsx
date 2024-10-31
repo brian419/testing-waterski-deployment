@@ -153,7 +153,7 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
     
-        const endpoint = isLogin ? `${APP_URL}/auth/login` : `${APP_URL}/auth/signup`;
+        const endpoint = isLogin ? `auth/login` : `/auth/signup`;
         console.log('endpoint:', endpoint);
     
         if (isLogin) {
