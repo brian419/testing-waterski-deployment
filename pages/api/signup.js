@@ -149,6 +149,16 @@ const signup = async (req, res) => {
         const major = req.body.major?.[0];
         const pfpimage = req.files.pfpimage ? req.files.pfpimage[0].buffer : null;
 
+        console.log('email:', email);
+        console.log('password', password);
+        console.log('fname:', fname);
+        console.log('lname:', lname);
+        console.log('cwid:', cwid);
+        console.log('phone:', phone);
+        console.log('gradYear:', gradYear);
+        console.log('major:', major);
+        console.log('pfpimage:', pfpimage);
+
         if (!password) {
             console.error("Password is missing in req.body after parsing.");
             return res.status(400).json({ message: "Password is required." });
