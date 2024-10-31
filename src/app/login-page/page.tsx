@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import WaterskiImage from '../img/loginSkiIMG.svg';
 import SkiBamaLogo from '../img/skibamalogo.svg';
+
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 
@@ -151,9 +152,8 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const endpoint = isLogin 
-            ? `/auth/login` 
-            : `/auth/signup`;
+        
+        const endpoint = isLogin ? `${APP_URL}/api/login` : `${APP_URL}/api/signup`;
     
         if (isLogin) {
             const payload = { email, password };
