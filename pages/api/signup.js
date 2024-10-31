@@ -45,136 +45,58 @@
 
 
 
-// require('dotenv').config();
-// const bcrypt = require('bcrypt');
-// const db = require('../../db');
-
-// const signup = async (req, res) => {
-//     if (req.method !== 'POST') {
-//         return res.status(405).json({ message: 'Method Not Allowed' });
-//     }
-
-//     const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
-//     console.log('req.body:', req.body);
-//     const pfpimage = req.file ? req.file.buffer : null;
-
-//     try {
-//         db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
-//             if (err) {
-//                 console.error('Database query error:', err);
-//                 return res.status(500).json({ message: 'Database error' });
-//             }
-
-//             if (results && results.length > 0) {
-//                 return res.status(400).json({ message: 'User already exists' });
-//             }
-
-//             try {
-//                 const salt = await bcrypt.genSalt(10);
-//                 console.log("Password received:", password);
-//                 const hashedPassword = await bcrypt.hash(password, salt);
-
-//                 db.query(
-//                     `INSERT INTO User (Email, Password, Fname, Lname, CWID, Phone, GradYear, Major, PfpImage) 
-//                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-//                     [email, hashedPassword, fname, lname, cwid, phone, gradYear, major, pfpimage],
-//                     (err, result) => {
-//                         if (err) {
-//                             console.error('Database insert error:', err);
-//                             return res.status(500).json({ message: 'Database error' });
-//                         }
-//                         res.status(201).json({ message: 'Signup successful!' });
-//                     }
-//                 );
-//             } catch (err) {
-//                 console.error('Hashing error:', err);
-//                 res.status(500).json({ message: 'Server error' });
-//             }
-//         });
-//     } catch (error) {
-//         console.error('Unexpected error during signup:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
-//     }
-// };
-
-// export default signup;
-
-
-
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const multer = require('multer');
 const db = require('../../db');
-
-// const upload = multer({ storage: multer.memoryStorage() });
-const upload = multer().none(); // temp switch to none
 
 const signup = async (req, res) => {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    // upload.any()(req, res, async (err) => {
-    //     if (err) {
-    //         console.error("File upload error:", err);
-    //         return res.status(500).json({ message: "File upload error" });
-    //     }
+    const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
+    console.log('req.body:', req.body);
+    const pfpimage = req.file ? req.file.buffer : null;
 
-    //     console.log('Parsed req.body:', req.body);
+    try {
+        db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).json({ message: 'Database error' });
+            }
 
-    //     const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
-    //     const pfpimage = req.files && req.files[0] ? req.files[0].buffer : null;
+            if (results && results.length > 0) {
+                return res.status(400).json({ message: 'User already exists' });
+            }
 
-    //     if (!password) {
-    //         console.error("Password is missing in req.body after parsing.");
-    //         return res.status(400).json({ message: "Password is required." });
-    //     }
+            try {
+                const salt = await bcrypt.genSalt(10);
+                console.log("Password received:", password);
+                const hashedPassword = await bcrypt.hash(password, salt);
 
-    //     try {
-    //         db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
-    //             if (err) {
-    //                 console.error('Database query error:', err);
-    //                 return res.status(500).json({ message: 'Database error' });
-    //             }
-
-    //             if (results && results.length > 0) {
-    //                 return res.status(400).json({ message: 'User already exists' });
-    //             }
-
-    //             try {
-    //                 const salt = await bcrypt.genSalt(10);
-    //                 console.log("Password received before hashing:", password);
-    //                 const hashedPassword = await bcrypt.hash(password, salt);
-
-    //                 db.query(
-    //                     `INSERT INTO User (Email, Password, Fname, Lname, CWID, Phone, GradYear, Major, PfpImage) 
-    //                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    //                     [email, hashedPassword, fname, lname, cwid, phone, gradYear, major, pfpimage],
-    //                     (err, result) => {
-    //                         if (err) {
-    //                             console.error('Database insert error:', err);
-    //                             return res.status(500).json({ message: 'Database error' });
-    //                         }
-    //                         res.status(201).json({ message: 'Signup successful!' });
-    //                     }
-    //                 );
-    //             } catch (err) {
-    //                 console.error('Hashing error:', err);
-    //                 res.status(500).json({ message: 'Server error' });
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error('Unexpected error during signup:', error);
-    //         res.status(500).json({ message: 'Internal Server Error' });
-    //     }
-    // });
-    upload(req, res, async (err) => {
-        if (err) {
-            console.error("Error without file upload:", err);
-            return res.status(500).json({ message: "Parsing error without file" });
-        }
-        console.log("Parsed req.body without file upload:", req.body);
-    });
+                db.query(
+                    `INSERT INTO User (Email, Password, Fname, Lname, CWID, Phone, GradYear, Major, PfpImage) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                    [email, hashedPassword, fname, lname, cwid, phone, gradYear, major, pfpimage],
+                    (err, result) => {
+                        if (err) {
+                            console.error('Database insert error:', err);
+                            return res.status(500).json({ message: 'Database error' });
+                        }
+                        res.status(201).json({ message: 'Signup successful!' });
+                    }
+                );
+            } catch (err) {
+                console.error('Hashing error:', err);
+                res.status(500).json({ message: 'Server error' });
+            }
+        });
+    } catch (error) {
+        console.error('Unexpected error during signup:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 };
 
 export default signup;
+
+
