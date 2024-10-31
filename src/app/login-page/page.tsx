@@ -11,6 +11,7 @@ import SkiBamaLogo from '../img/skibamalogo.svg';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 
+
 // list of majors offered by UA, think we should take out minors for now. our database only holds one major, but ppl can have multiple as well.
 const majors = [
     { value: 'Accounting, BS', label: 'Accounting, BS' },
@@ -152,7 +153,6 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
         const endpoint = isLogin ? `${APP_URL}/auth/login` : `${APP_URL}/auth/signup`;
         console.log('endpoint:', endpoint);
     

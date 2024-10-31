@@ -17,10 +17,6 @@ export default function ContactUs () {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // const apiUrl = process.env.NODE_ENV === 'production'
-        //     ? 'https://testing-waterski-deployment.vercel.app/api/sendEmail'
-        //     : '/api/sendEmail';
-
         const apiUrl = process.env.NODE_ENV === 'production'
             ? `${APP_URL}/api/sendEmail`
             : '/api/sendEmail';

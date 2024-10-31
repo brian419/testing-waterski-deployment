@@ -1,15 +1,13 @@
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
-const { login } = require('../auth/login.js');
-const { signup } = require('../auth/signup');
+const { login } = require('../../pages/api/login.js');
+const { signup } = require('../../pages/api/signup.js');
 
-
-
-const { getRoster } = require('../auth/roster');
-const { getSetList, registerReservation, deleteReservation } = require('../auth/setlist');
-const { profile } = require('../auth/profile');
-const { getMeetingNotes, addMeetingNote, deleteMeetingNote } = require('../auth/meetingnotes');
+const { getRoster } = require('../../pages/api/roster.js');
+const { getSetList, registerReservation, deleteReservation } = require('../../pages/api/setlist.js');
+const { profile } = require('../../pages/api/profile.js');
+const { getMeetingNotes, addMeetingNote, deleteMeetingNote } = require('../../pages/api/meetingnotes.js');
 
 // multer is the middleware for handling file uploads
 const storage = multer.memoryStorage();
