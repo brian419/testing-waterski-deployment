@@ -2,11 +2,9 @@
 // While this is where we expect most users to use the page (as it is for the UA Waterski team, which is located in CST),
 // the page may not work as expected in other time zones. - Lilly Eide
 
-
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './setlist_styles.css'
 import Image from 'next/image';
 import BlankPfp from '../img/blankpfp.svg';
 import { useRouter } from 'next/navigation';
@@ -33,7 +31,7 @@ interface TeamMember {
 
 const Button = ({ onClick, className, children }) => {
     return (
-        <button className={className} onClick={onClick}>
+        <button className={`${className} p-2 rounded-md transition-all duration-300 hover:scale-105`} onClick={onClick}>
             {children}
         </button>
     );
@@ -41,10 +39,10 @@ const Button = ({ onClick, className, children }) => {
 
 function Popup({ children, isOpen, onClose }) {
     return (
-        <div className={`popup ${isOpen ? 'open' : ''}`}>
-            <div className="popup-content">
+        <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
                 {children}
-                <button onClick={onClose}>Close</button>
+                <button onClick={onClose} className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">Close</button>
             </div>
         </div>
     );
@@ -103,38 +101,26 @@ const deleteReservation = async (date) => {
 
 function popupContent(info) {
     return (
-        <div className="bg-white rounded-lg">
-            <div className="p-4">
-                <div className="relative w-24 h-24 mb-4 mx-auto">
-                    <Image
-                        src={info.PfpImage || BlankPfp}
-                        alt={`${info.Fname} ${info.Lname}'s profile image`}
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-full border shadow"
-                    />
-                </div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-1 text-center">
-                    {info.Fname} {info.Lname}
-                </h2>
-                <p className="text-gray-700">
-                    <strong>Member Type:</strong> {info.MemberType}
-                </p>
-                <p className="text-gray-700">
-                    <strong>Graduation Year:</strong> {info.GradYear}
-                </p>
-                <p className="text-gray-700">
-                    <strong>Major:</strong> {info.Major || 'N/A'}
-                </p>
-                <p className="text-gray-700">
-                    <strong>Email:</strong> {info.Email || 'N/A'}
-                </p>
-                <p className="text-gray-700">
-                    <strong>Phone:</strong> {info.Phone || 'N/A'}
-                </p>
+        <div className="p-4">
+            <div className="relative w-24 h-24 mx-auto mb-4">
+                <Image
+                    src={info.PfpImage || BlankPfp}
+                    alt={`${info.Fname} ${info.Lname}'s profile image`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-full border-4 border-gray-300 shadow-lg"
+                />
+            </div>
+            <h2 className="text-center text-2xl font-semibold text-gray-800">{info.Fname} {info.Lname}</h2>
+            <div className="mt-2 text-gray-700 text-sm">
+                <p><span className="font-bold">Member Type:</span> {info.MemberType}</p>
+                <p><span className="font-bold">Graduation Year:</span> {info.GradYear}</p>
+                <p><span className="font-bold">Major:</span> {info.Major || 'N/A'}</p>
+                <p><span className="font-bold">Email:</span> {info.Email || 'N/A'}</p>
+                <p><span className="font-bold">Phone:</span> {info.Phone || 'N/A'}</p>
             </div>
         </div>
-    )
+    );
 }
 
 function setUserInfo(info) {
@@ -163,46 +149,33 @@ const SetListButton = ({ date, reservationState, reservationName, userInfo, setI
         }
     };
 
+    let buttonClass, buttonText;
+
     if (date < Date.now()) {
-        if (reservationState === "reservedBySomeoneElse") {
-            return (
-                <div>
-                    <Button className="reservedBySomeoneElse" onClick={handleClick}>Past reservation,<br></br>reserved by {reservationName}</Button>
-                </div>
-            );
-        } else if (reservationState === "reservedByYou") {
-            return (
-                <div>
-                    <Button className="reservedBySomeoneElse" onClick={handleClick}>Past reservation,<br></br>reserved by you</Button>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <Button className="pastReservation" onClick={handleClick}>Past reservation,<br></br>cannot register</Button>
-                </div>
-            );
-        }
-    } else if (reservationState === "open") {
-        return (
-            <div>
-                <Button className="openReservation" onClick={handleClick}>Slot available.<br></br>Click to reserve</Button>
-            </div>
-        );
-    } else if (reservationState === "reservedByYou") {
-        return (
-            <div>
-                <Button className="reservedByYou" onClick={handleClick}>Slot registered by you.<br></br>Click to cancel</Button>
-            </div>
-        );
+        buttonText = reservationState === "reservedByYou"
+            ? "Past reservation, reserved by you"
+            : reservationState === "reservedBySomeoneElse"
+                ? `Past reservation, reserved by ${reservationName}`
+                : "Past reservation, cannot register";
+
+        buttonClass = reservationState === "reservedByYou"
+            ? 'bg-[#D7D7E0] text-black cursor-not-allowed border-2 border-transparent hover:border-black'
+            : reservationState === "reservedBySomeoneElse"
+                ? 'bg-black text-white cursor-not-allowed border-2 border-transparent hover:border-black' 
+                : 'bg-[#D7D7E0] text-black cursor-not-allowed border-2 border-transparent hover:border-black';
+
     } else {
-        return (
-            <div>
-                <Button className="reservedBySomeoneElse" onClick={handleClick}>Reserved by<br></br>{reservationName}</Button>
-            </div>
-        );
+        buttonClass = reservationState === 'open' ? 'bg-[#FFD8D8] text-black border-2 border-transparent hover:border-red-600' : reservationState === 'reservedByYou' ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-800 text-white cursor-not-allowed';
+        buttonText = reservationState === "open" ? "Slot available. Click to reserve" : reservationState === "reservedByYou" ? "Slot reserved by you. Click to cancel" : `Reserved by ${reservationName}`;
     }
+
+    return (
+        <Button onClick={handleClick} className={`${buttonClass} w-full`}>
+            {buttonText}
+        </Button>
+    );
 };
+
 
 function getTeamMemberInfo(teamMembers, email) {
     return teamMembers.find(member => member.Email === email) || null;
@@ -220,6 +193,15 @@ export default function SetListPage() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const timesSet = new Set();
     const router = useRouter();
+
+    const todayDate = new Date();
+    const dateRangeStart = new Date();
+    dateRangeStart.setDate(todayDate.getDate() - todayDate.getDay() - 14);
+    const dateRangeEnd = new Date();
+    dateRangeEnd.setDate(todayDate.getDate() - todayDate.getDay() + 20);
+
+    const dateRangeStartString = `${dateRangeStart.getFullYear()}-${(dateRangeStart.getMonth() + 1)}-${dateRangeStart.getDate()} 00:00:00`;
+    const dateRangeEndString = `${dateRangeEnd.getFullYear()}-${(dateRangeEnd.getMonth() + 1)}-${dateRangeEnd.getDate()} 23:59:59`;
 
     useEffect(() => {
         document.title = 'UA Waterski - Set List';
@@ -297,10 +279,10 @@ export default function SetListPage() {
             fetchSetList();
         }
 
-    }, [isLoggedIn]);
+    }, [isLoggedIn, dateRangeEndString, dateRangeStartString]);
 
     function TimeTableBody() {
-        let rows = [];
+        const rows = [];
 
         const currentWeekDropDown = document.getElementById("dateRangeDropDown") as HTMLInputElement;
         if (currentWeekDropDown == null) return;
@@ -311,13 +293,13 @@ export default function SetListPage() {
             for (let minutes = 0; minutes < 60; minutes += 15) {
                 if (hour === 17 && minutes !== 0) continue;
 
-                let cells = [];
+                const cells = [];
                 const hourString = hour <= 12 ? hour.toString() : (hour - 12).toString();
                 const minuteString = minutes === 0 ? minutes.toString() + "0" : minutes.toString();
                 const amPMString = hour < 12 ? "am" : "pm";
                 const timeString = hourString + ":" + minuteString + amPMString;
 
-                cells.push(<td key={"timeCell_" + hour + "_" + minutes} className="timeCell">{timeString}</td>);
+                cells.push(<td key={"timeCell_" + hour + "_" + minutes} className="text-right p-2 font-medium text-gray-600">{timeString}</td>);
 
                 for (let day = 0; day <= 6; day++) {
                     const thisButtonDate = new Date(new Date(currentWeekStartDate).setDate(currentWeekStartDate.getDate() + day));
@@ -345,10 +327,10 @@ export default function SetListPage() {
 
     function TimeTable() {
         return (
-            <table id="setListTable">
+            <table className="bg-white rounded-lg w-full text-center overflow-hidden shadow-lg">
                 <thead>
-                    <tr>
-                        <th className="timeCell">Time</th>
+                    <tr className="text-center bg-[#A0A0A6] font-semibold text-lg text-gray-800">
+                        <th className="text-center p-2">Time</th>
                         <th>Sunday</th>
                         <th>Monday</th>
                         <th>Tuesday</th>
@@ -364,19 +346,30 @@ export default function SetListPage() {
     }
 
     const TimeTableWithDropDown = ({ values, labels }) => {
-        if (!values || !labels) return;
+        const today = new Date();
 
-        let options = [];
+        const thisWeekSunday = new Date();
+        thisWeekSunday.setDate(today.getDate() - today.getDay());
+
+        const currentWeekTimestamp = Math.floor(thisWeekSunday.getTime() / 1000);
+
+        const defaultSelectedIndex = values.findIndex(value => value === currentWeekTimestamp);
+        const [selectedOption, setSelectedOption] = useState(defaultSelectedIndex >= 0 ? values[defaultSelectedIndex] : values[Math.floor(values.length / 2)]);
+        if (!values || !labels) return null;
+
+        const options = [];
         for (let i = 0; i < values.length; i++) {
             options.push([values[i], labels[i]]);
         }
-        const [selectedOption, setSelectedOption] = useState(options[2][0]);
+
         return (
-            <div id="timeTableDiv">
+            <div className="overflow-x-auto w-full p-4">
                 <select
                     id="dateRangeDropDown"
                     value={selectedOption}
-                    onChange={e => setSelectedOption(e.target.value)}>
+                    onChange={e => setSelectedOption(e.target.value)}
+                    className="p-2 rounded-lg border-none bg-gray-600 text-lg font-bold mb-4"
+                >
                     {options.map(o => (
                         <option key={o[0]} value={o[0]}>{o[1]}</option>
                     ))}
@@ -389,12 +382,13 @@ export default function SetListPage() {
     function TimeTableInit() {
         const today = new Date();
         const weekRange = 2;
-        let dateRanges = [];
-        let values = [];
-        let labels = [];
+        const dateRanges = [];
+        const values = [] as number[];
+        const labels = [];
 
         const thisWeekSunday = new Date();
         thisWeekSunday.setDate(today.getDate() - today.getDay());
+
 
         for (let i = 0; i < (weekRange * 2) + 1; i++) {
             dateRanges.push([new Date(), new Date()]);
@@ -407,15 +401,6 @@ export default function SetListPage() {
         return <TimeTableWithDropDown values={values} labels={labels} />;
     }
 
-    const todayDate = new Date();
-    const dateRangeStart = new Date();
-    dateRangeStart.setDate(todayDate.getDate() - todayDate.getDay() - 14);
-    const dateRangeEnd = new Date();
-    dateRangeEnd.setDate(todayDate.getDate() - todayDate.getDay() + 20);
-
-    const dateRangeStartString = `${dateRangeStart.getFullYear()}-${(dateRangeStart.getMonth() + 1)}-${dateRangeStart.getDate()} 00:00:00`;
-    const dateRangeEndString = `${dateRangeEnd.getFullYear()}-${(dateRangeEnd.getMonth() + 1)}-${dateRangeEnd.getDate()} 23:59:59`;
-
     if (loading) {
         return <div className="text-black">Loading...</div>;
     }
@@ -425,7 +410,7 @@ export default function SetListPage() {
     });
 
     return (
-        <div className="relative bg-white rounded-[5px] pageContent">
+        <div className="relative bg-gray-50 rounded-lg max-w-full overflow-x-auto p-6">
             <div>
                 <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
                     <div id='popupContent'>
