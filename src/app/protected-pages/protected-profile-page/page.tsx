@@ -15,7 +15,6 @@ import EditPage from '../protected-profile-edit-page/page';
 import axios from 'axios';
 import Link from 'next/link';
 import EditIcon from '../../img/Icon (2).svg';
-import { useSearchParams } from 'next/navigation';
 
 interface TeamMember {
     Fname: string;
@@ -33,8 +32,6 @@ export default function ProfilePage() {
     const [teamMember, setTeamMember] = useState<TeamMember | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [isEditPageOpen, setIsEditPageOpen] = useState(false); // state to manage edit page visibility
-    const searchParams = useSearchParams();
-    const token = searchParams.get('token');
     const toggleEditPage = () => {
         setIsEditPageOpen(!isEditPageOpen);
     };
