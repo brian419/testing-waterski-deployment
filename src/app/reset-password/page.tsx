@@ -11,7 +11,9 @@ export default function ResetPasswordPage() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const searchParams = useSearchParams();
-    const token = searchParams.get('token');
+    // const token = searchParams.get('token');
+    const token = searchParams?.get('token') || '';
+
 
     useEffect(() => {
         if (!token) {

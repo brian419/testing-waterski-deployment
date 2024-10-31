@@ -61,32 +61,37 @@ export default function Navbar() {
         }
     };
 
+    interface DecodedToken {
+        exp?: number;
+    }
+
     const checkTokenExpiration = () => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const decoded = jwtDecode(token);
+                const decoded = jwtDecode<DecodedToken>(token);
                 const currentTime = Date.now() / 1000;
-                if (decoded.exp < currentTime) {
+
+                // Check if 'exp' exists and is valid
+                if (decoded.exp && decoded.exp < currentTime) {
                     localStorage.removeItem('token');
                     setIsLoggedIn(false);
                     router.push('/login-page');
-                    // console.log('Token expired. Redirected to login page.');
-                } else {
+                } else if (decoded.exp) { // Only set logged in if 'exp' is defined and token is valid
                     setIsLoggedIn(true);
                     fetchProfile(); // fetch the profile image if token is valid
                 }
             } catch (error) {
-                // console.error('Error decoding token:', error);
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
             }
         } else {
             setIsLoggedIn(false);
-            setProfilePic(defaultPfpImage); // reset profile picture when not logged in
-            setIsProfileFetched(false); // reset profile fetched state
+            setProfilePic(defaultPfpImage);
+            setIsProfileFetched(false);
         }
     };
+
 
     useEffect(() => {
         checkTokenExpiration(); // checks token expiration when component mounts
@@ -134,10 +139,10 @@ export default function Navbar() {
         if (isSidebarOpen) {
             document.body.style.overflow = 'hidden'; // disables background scroll when sidebar is open
         } else {
-            document.body.style.overflow = 'auto'; 
+            document.body.style.overflow = 'auto';
         }
     }, [isSidebarOpen]);
-    
+
 
     return (
         <nav className="bg-[#9E1B32] shadow-md sticky top-0 z-[9999] w-full">

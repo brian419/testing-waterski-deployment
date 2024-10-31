@@ -29,7 +29,7 @@ interface TeamMember {
     Phone?: string;
 }
 
-const Button = ({ onClick, className, children }) => {
+const Button = ({ onClick, className, children }: { onClick: () => void; className: string; children: React.ReactNode }) => {
     return (
         <button className={`${className} p-2 rounded-md transition-all duration-300 hover:scale-105`} onClick={onClick}>
             {children}
@@ -37,7 +37,7 @@ const Button = ({ onClick, className, children }) => {
     );
 };
 
-function Popup({ children, isOpen, onClose }) {
+function Popup({ children, isOpen, onClose }: { children: React.ReactNode; isOpen: boolean; onClose: () => void }) {
     return (
         <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -48,7 +48,7 @@ function Popup({ children, isOpen, onClose }) {
     );
 };
 
-const makeReservation = async (date) => {
+const makeReservation = async (date: Date) => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -56,7 +56,7 @@ const makeReservation = async (date) => {
         }
 
         const payload = {
-            'reserveDate': date
+            'reserveDate': date.getTime() // assuming you need the timestamp here
         };
 
         await axios.post('http://localhost:4000/auth/setlist', payload, {
@@ -73,7 +73,8 @@ const makeReservation = async (date) => {
     }
 };
 
-const deleteReservation = async (date) => {
+
+const deleteReservation = async (date: Date) => {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -85,7 +86,7 @@ const deleteReservation = async (date) => {
                 Authorization: `Bearer ${token}`
             },
             data: {
-                'reserveDate': date
+                'reserveDate': date.getTime
             }
         };
 
@@ -99,7 +100,7 @@ const deleteReservation = async (date) => {
     }
 }
 
-function popupContent(info) {
+function popupContent(info: TeamMember) {
     return (
         <div className="p-4">
             <div className="relative w-24 h-24 mx-auto mb-4">
@@ -123,7 +124,7 @@ function popupContent(info) {
     );
 }
 
-function setUserInfo(info) {
+function setUserInfo(info: TeamMember) {
     const popupElement = document.getElementById("popupContent") as HTMLDivElement;
 
     if (popupElement != null) {
@@ -131,27 +132,44 @@ function setUserInfo(info) {
     }
 };
 
-const SetListButton = ({ date, reservationState, reservationName, userInfo, setIsPopupOpen }) => {
+const SetListButton = ({
+    date,
+    reservationState,
+    reservationName,
+    userInfo,
+    setIsPopupOpen
+}: {
+    date: Date;
+    reservationState: string;
+    reservationName: string;
+    userInfo: TeamMember | null;
+    setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const info = userInfo;
 
     const handleClick = () => {
-        if (reservationState === "open" && date >= Date.now()) {
+        if (reservationState === "open" && date >= new Date()) {
             if (confirm("Reserve slot for " + date.toLocaleString("en-US") + "? Press OK or Yes to continue.")) {
-                makeReservation(date.getTime());
+                makeReservation(date);
             }
-        } else if (reservationState === "reservedByYou" && date >= Date.now()) {
+        } else if (reservationState === "reservedByYou" && date >= new Date()) {
             if (confirm("Cancel reservation for " + date.toLocaleString("en-US") + "? Press OK or Yes to continue.")) {
-                deleteReservation(date.getTime());
+                deleteReservation(date);
             }
-        } else if (reservationState === "reservedBySomeoneElse" || (date < Date.now() && reservationState === "reservedByYou")) {
-            setUserInfo(info);
-            setIsPopupOpen(true);
+        } else if (reservationState === "reservedBySomeoneElse" || (date < new Date() && reservationState === "reservedByYou")) {
+            if (info) { // Check if info is not null
+                setUserInfo(info);
+                setIsPopupOpen(true);
+            } else {
+                console.error("User information is not available");
+            }
         }
     };
 
+
     let buttonClass, buttonText;
 
-    if (date < Date.now()) {
+    if (date < new Date()) {
         buttonText = reservationState === "reservedByYou"
             ? "Past reservation, reserved by you"
             : reservationState === "reservedBySomeoneElse"
@@ -161,12 +179,19 @@ const SetListButton = ({ date, reservationState, reservationName, userInfo, setI
         buttonClass = reservationState === "reservedByYou"
             ? 'bg-[#D7D7E0] text-black cursor-not-allowed border-2 border-transparent hover:border-black'
             : reservationState === "reservedBySomeoneElse"
-                ? 'bg-black text-white cursor-not-allowed border-2 border-transparent hover:border-black' 
+                ? 'bg-black text-white cursor-not-allowed border-2 border-transparent hover:border-black'
                 : 'bg-[#D7D7E0] text-black cursor-not-allowed border-2 border-transparent hover:border-black';
-
     } else {
-        buttonClass = reservationState === 'open' ? 'bg-[#FFD8D8] text-black border-2 border-transparent hover:border-red-600' : reservationState === 'reservedByYou' ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-800 text-white cursor-not-allowed';
-        buttonText = reservationState === "open" ? "Slot available. Click to reserve" : reservationState === "reservedByYou" ? "Slot reserved by you. Click to cancel" : `Reserved by ${reservationName}`;
+        buttonClass = reservationState === 'open'
+            ? 'bg-[#FFD8D8] text-black border-2 border-transparent hover:border-red-600'
+            : reservationState === 'reservedByYou'
+                ? 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-gray-800 text-white cursor-not-allowed';
+        buttonText = reservationState === "open"
+            ? "Slot available. Click to reserve"
+            : reservationState === "reservedByYou"
+                ? "Slot reserved by you. Click to cancel"
+                : `Reserved by ${reservationName}`;
     }
 
     return (
@@ -177,13 +202,15 @@ const SetListButton = ({ date, reservationState, reservationName, userInfo, setI
 };
 
 
-function getTeamMemberInfo(teamMembers, email) {
+
+function getTeamMemberInfo(teamMembers: TeamMember[], email: string): TeamMember | null {
     return teamMembers.find(member => member.Email === email) || null;
 }
 
-function getReservationInfo(reservations, date) {
+function getReservationInfo(reservations: SetListReservation[], date: Date): SetListReservation | null {
     return reservations.find(reservation => new Date(reservation.Date).getTime() === date.getTime()) || null;
 }
+
 
 export default function SetListPage() {
     const [reservations, setReservations] = useState<SetListReservation[]>([]);
@@ -345,7 +372,13 @@ export default function SetListPage() {
         );
     }
 
-    const TimeTableWithDropDown = ({ values, labels }) => {
+    const TimeTableWithDropDown = ({
+        values,
+        labels
+    }: {
+        values: number[];
+        labels: string[];
+    }) => {
         const today = new Date();
 
         const thisWeekSunday = new Date();
@@ -367,7 +400,7 @@ export default function SetListPage() {
                 <select
                     id="dateRangeDropDown"
                     value={selectedOption}
-                    onChange={e => setSelectedOption(e.target.value)}
+                    onChange={e => setSelectedOption(Number(e.target.value))}
                     className="p-2 rounded-lg border-none bg-gray-600 text-lg font-bold mb-4"
                 >
                     {options.map(o => (
@@ -378,6 +411,7 @@ export default function SetListPage() {
             </div>
         );
     };
+
 
     function TimeTableInit() {
         const today = new Date();

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import WaterskiImage from '../img/loginSkiIMG.svg';
@@ -116,7 +116,8 @@ export default function LoginPage() {
     const [cwid, setCwid] = useState('');
     const [phone, setPhone] = useState('');
     const [gradYear, setGradYear] = useState('Freshman');
-    const [selectedMajor, setSelectedMajor] = useState(null);
+    // const [selectedMajor, setSelectedMajor] = useState(null);
+    const [selectedMajor, setSelectedMajor] = useState<{ value: string, label: string } | null>(null);
     // const [PfpImage, setProfilePicture] = useState(null);
     const [PfpImage, setProfilePicture] = useState<File | null>(null);
     const [isLogin, setIsLogin] = useState(true);
@@ -157,10 +158,18 @@ export default function LoginPage() {
                 localStorage.setItem('token', response.data.token);
                 router.push('/');
             } catch (error) {
-                console.error('Error:', error.response?.data?.message || error.message);
+                let errorMessage = "An unexpected error occurred.";
+                if (error instanceof AxiosError) {
+                    errorMessage = error.response?.data?.message || error.message;
+                } else if (error instanceof Error) {
+                    errorMessage = error.message;
+                }
+                console.error('Error:', errorMessage);
+
                 document.getElementById('errorBox')?.setAttribute("style", "display: block;");
                 document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
+
         } else {
             const formData = new FormData();
             formData.append('email', email);
@@ -182,7 +191,11 @@ export default function LoginPage() {
                 });
                 setIsLogin(true);
             } catch (error) {
-                console.error('Error:', error.response?.data?.message || error.message);
+                if (axios.isAxiosError(error)) {
+                    console.error('Error:', error.response?.data?.message || error.message);
+                } else {
+                    console.error('An unexpected error occurred:', error);
+                }
             }
         }
     };
