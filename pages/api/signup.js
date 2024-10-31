@@ -106,14 +106,14 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const db = require('../../db');
 
-const upload = multer().any();
+const upload = multer({ storage: multer.memoryStorage() });
 
 const signup = async (req, res) => {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    upload.single('pfpimage')(req, res, async (err) => {
+    upload.any()(req, res, async (err) => {
         if (err) {
             console.error("File upload error:", err);
             return res.status(500).json({ message: "File upload error" });
@@ -122,7 +122,7 @@ const signup = async (req, res) => {
         console.log('Parsed req.body:', req.body);
 
         const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
-        const pfpimage = req.file ? req.file.buffer : null;
+        const pfpimage = req.files && req.files[0] ? req.files[0].buffer : null;
 
         if (!password) {
             console.error("Password is missing in req.body after parsing.");
