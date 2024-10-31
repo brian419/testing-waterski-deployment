@@ -1,4 +1,4 @@
-const db = require('../../../db');
+const db = require('../../db');
 
 exports.getMeetingNotes = (req, res) => {
     const query = 'SELECT * FROM meeting_notes ORDER BY date DESC';
