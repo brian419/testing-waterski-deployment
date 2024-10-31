@@ -176,7 +176,8 @@ export default function LoginPage() {
             }
 
             try {
-                const response = await axios.post(endpoint, formData, {
+
+                await axios.post(endpoint, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 setIsLogin(true);
