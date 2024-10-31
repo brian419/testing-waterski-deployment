@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import db from '../../db';
 const SECRET_KEY = process.env.JWT_SECRET;
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 const isValidUAEmail = (email: string): boolean => {
     //pattern=".+@+(.+\.)?ua\.edu"
