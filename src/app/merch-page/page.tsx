@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { fetchSheetData } from "../googlesheetservices";
-import Image from 'next/image';
 
 export default function MerchPage() {
     const [image2A, setImage2A] = useState<string | null>(null);
