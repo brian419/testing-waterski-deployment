@@ -152,7 +152,8 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+    
+        // dynamically define endpoint based on environment
         const endpoint = isLogin ? `${APP_URL}/api/login` : `${APP_URL}/api/signup`;
     
         if (isLogin) {
@@ -173,7 +174,6 @@ export default function LoginPage() {
                 document.getElementById('errorBox')?.setAttribute("style", "display: block;");
                 document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
-    
         } else {
             const formData = new FormData();
             formData.append('email', email);
@@ -203,6 +203,7 @@ export default function LoginPage() {
             }
         }
     };
+    
     
 
 
