@@ -68,12 +68,15 @@
 
 
 
+
+
+
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../../db');
 
-module.exports.login = async (req, res) => {
+const login = async (req, res) => {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
@@ -83,7 +86,8 @@ module.exports.login = async (req, res) => {
     try {
         db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
             if (err) {
-                return res.status(500).json({ message: 'Database error' });
+                console.error('Database query error:', err);
+                return res.status(500).json({ message: 'Database query error' });
             }
 
             if (results.length === 0) {
@@ -105,7 +109,9 @@ module.exports.login = async (req, res) => {
             res.status(200).json({ message: 'Login successful', token });
         });
     } catch (error) {
-        console.error('Error logging in:', error);
+        console.error('Unexpected error during login:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+export default login;
