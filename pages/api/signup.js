@@ -57,6 +57,7 @@ const signup = async (req, res) => {
     const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
     console.log('req.body:', req.body);
     const pfpimage = req.file ? req.file.buffer : null;
+    console.log('password:', password)
 
     try {
         console.log('password at try block 1:', password);
