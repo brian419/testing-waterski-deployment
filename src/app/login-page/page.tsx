@@ -190,21 +190,10 @@ export default function LoginPage() {
                 formData.append('pfpimage', PfpImage);
             }
 
-            // try {
-            //     await axios.post(endpoint, formData, {
-            //         headers: { 'Content-Type': 'multipart/form-data' },
-            //     });
-            //     setIsLogin(true);
-            // } catch (error) {
-            //     if (axios.isAxiosError(error)) {
-            //         console.error('Error:', error.response?.data?.message || error.message);
-            //     } else {
-            //         console.error('An unexpected error occurred:', error);
-            //     }
-            // }
-            // trying try catch without headers
             try {
-                await axios.post(endpoint, formData); 
+                await axios.post(endpoint, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
                 setIsLogin(true);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
