@@ -177,6 +177,7 @@ export default function LoginPage() {
         } else {
             const formData = new FormData();
             formData.append('email', email);
+            console.log('password being sent:', password)
             formData.append('password', password);
             formData.append('fname', fname);
             formData.append('lname', lname);
