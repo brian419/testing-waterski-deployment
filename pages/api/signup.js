@@ -106,7 +106,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const db = require('../../db');
 
-const upload = multer();
+const upload = multer().any();
 
 const signup = async (req, res) => {
     if (req.method !== 'POST') {
