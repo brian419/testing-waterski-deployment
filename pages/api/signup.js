@@ -1,3 +1,4 @@
+// v1
 // const bcrypt = require('bcrypt');
 // const db = require('../../db');
 
@@ -46,7 +47,7 @@
 
 
 
-// v2
+// v2 don't use v2
 // require('dotenv').config();
 // const bcrypt = require('bcrypt');
 // const db = require('../../db');
@@ -109,7 +110,7 @@
 
 
 
-// v3
+// v3 allows signup in frontend to work now (besides pfpimage for now)
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const db = require('../../db');
