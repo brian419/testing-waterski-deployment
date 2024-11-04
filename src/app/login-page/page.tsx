@@ -175,7 +175,9 @@ export default function LoginPage() {
                 document.getElementById('errorText')!.innerText = "Invalid email or password. Please try again.";
             }
         } else {
-            const formData = new FormData();
+            const formData = new FormData(); // according to vercel logs, login.js has a different format for req.body compared to signup.js
+            // i believe that is why signup.js is not able to recognize like elements from the frontend (like console password, but console req.body is sending the frontnend to backend but not in the right format)
+            
             formData.append('email', email);
             console.log('password being sent:', password)
             formData.append('password', password);
