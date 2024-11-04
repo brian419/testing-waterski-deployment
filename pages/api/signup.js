@@ -55,7 +55,7 @@ const signup = async (req, res) => {
     }
 
     const { email, password, fname, lname, cwid, phone, gradYear, major } = req.body;
-    console.log('req.body:', req.body);
+    console.log('req.body for signup:', req.body);
     console.log('password before pfpimage line:', password)
     const pfpimage = req.file ? req.file.buffer : null;
     console.log('password after pfpimage line:', password)
