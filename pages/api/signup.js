@@ -114,7 +114,9 @@ const db = require('../../db');
 const multer = require('multer');
 
 // Set up multer for parsing multipart/form-data
-const upload = multer();
+const upload = multer({
+    limits: { fileSize: 10 * 1024 * 1024 } // 10 MB limit, adjust as necessary
+});
 
 const signup = async (req, res) => {
     if (req.method !== 'POST') {
