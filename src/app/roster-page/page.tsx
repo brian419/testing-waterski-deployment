@@ -90,7 +90,7 @@ export default function RosterPage() {
                 //     },
                 // });
 
-                const response = await axios.get<TeamMember>(`${APP_URL}api/roster`, {
+                const response = await axios.get<TeamMember[]>(`${APP_URL}api/roster`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
