@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
                     <h3 style="color: #9E1B32; margin-bottom: 20px;">Hello ${name},</h3>
                     <p style="font-size: 16px; line-height: 1.5;">
-                        Thank you for reaching out! Below is a copy of your message details:
+                        Thank you for reaching out to the University of Alabama's Waterski Team! Below is a copy of your message details:
                     </p>
                     <div style="background-color: #f9f9f9; padding: 20px; border-left: 4px solid #9E1B32; border-radius: 8px; margin: 20px 0;">
                         <p style="font-size: 16px; color: #333;">
@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         </p>
                     </div>
                     <p style="font-size: 16px; line-height: 1.5;">
-                        I’ll get back to you as soon as possible.
+                        We will get back to you as soon as possible.
                     </p>
                     <p style="font-size: 16px; line-height: 1.5; margin-top: 20px;">
                         Best regards,<br>
@@ -63,8 +63,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     </p>
                     <hr style="border: none; border-top: 1px solid #9E1B32; margin-top: 30px;"/>
                     <p style="font-size: 12px; color: #777;">
-                        This email was sent from <strong>Jeongbin Son’s Portfolio</strong>. You can visit the website at 
-                        <a href="https://jeongbinson.com/" style="color: #9E1B32; text-decoration: none;">https://jeongbinson.com/</a>.
+                        This email was sent from <strong>UA’s Waterski Team</strong>. You can visit our website at 
+                        <a href="https://testing-waterski-deployment.vercel.app/" style="color: #9E1B32; text-decoration: none;">https://testing-waterski-deployment.vercel.app/[DON"T FORGET TO CHANGE THIS TO THE ACTUAL DOAMIN NAME]</a>.
                     </p>
                 </div>
             `,
