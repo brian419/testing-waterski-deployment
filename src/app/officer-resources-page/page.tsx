@@ -28,7 +28,6 @@ function MeetingNotes({ isEditing, setIsEditing, notes, setNotes }: MeetingNotes
 
     const fetchNotes = useCallback(async () => {
         try {
-            // const response = await axios.get("http://localhost:4000/auth/meetingnotes");
             const response = await axios.get(`${APP_URL}api/meetingnotes`);
 
             const formattedNotes = response.data.map((note: Note) => ({
@@ -58,12 +57,6 @@ function MeetingNotes({ isEditing, setIsEditing, notes, setNotes }: MeetingNotes
                 content: newNote.content || '',
             };
 
-            // await axios.post('http://localhost:4000/auth/meetingnotes', noteData, {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            // });
-
             await axios.post(`${APP_URL}api/meetingnotes`, noteData, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,15 +71,6 @@ function MeetingNotes({ isEditing, setIsEditing, notes, setNotes }: MeetingNotes
         }
     };
 
-    // const deleteNote = async (id: number) => {
-    //     try {
-    //         // await axios.delete(`http://localhost:4000/auth/meetingnotes/${id}`);
-    //         await axios.delete(`${APP_URL}api/meetingnotes/${id}`);
-    //         fetchNotes();
-    //     } catch (error) {
-    //         console.error("Error deleting note:", error);
-    //     }
-    // };
 
     const deleteNote = async (id: number) => {
         try {
