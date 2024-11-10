@@ -402,38 +402,14 @@ export default function LoginPage() {
 
                 </div>
 
-                {/* <div className="rounded-tl-[55px] rounded-bl-[55px] relative" style={{ maxWidth: '100%', height: 'auto' }}>
+                <div className="rounded-tl-[55px] rounded-bl-[55px] relative" style={{ maxWidth: '100%', height: 'auto' }}>
                     <Image
                         src={WaterskiImage}
                         alt="Water ski image"
                         priority={true}
                         style={{ width: '100%', height: 'auto' }}
                     />
-                </div> */}
-
-                {/* <div className="relative border-2 border-black rounded-tl-[55px] rounded-bl-[55px] overflow-hidden" style={{ maxWidth: '100%', height: 'auto' }}>
-                    <div className="w-full h-auto" style={{ transform: 'scale(1.01)', filter: 'blur(0.3px)' }}>
-                        <Image
-                            src={WaterskiImage}
-                            alt="Water ski image"
-                            priority={true}
-                            style={{ width: '100%', height: 'auto' }}
-                        />
-                    </div>
-                </div> */}
-
-                {/* <div className="w-1/2 flex items-center justify-center">
-                    <div className="rounded-lg">
-                        <Image src={WaterskiImage} alt="Waterski Image" />
-                    </div>
-                </div> */}
-
-                <div className="w-1/2 flex items-center justify-center">
-                    <div className="rounded-lg overflow-hidden shadow-md border border-gray-300">
-                        <Image src={WaterskiImage} alt="Waterski Image" className="object-cover" />
-                    </div>
                 </div>
-
 
             </div>
         </div>
