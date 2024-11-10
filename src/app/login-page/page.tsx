@@ -422,11 +422,18 @@ export default function LoginPage() {
                     </div>
                 </div> */}
 
-                <div className="w-1/2 flex items-center justify-center">
+                {/* <div className="w-1/2 flex items-center justify-center">
                     <div className="rounded-lg">
                         <Image src={WaterskiImage} alt="Waterski Image" />
                     </div>
+                </div> */}
+
+                <div className="w-1/2 flex items-center justify-center">
+                    <div className="rounded-lg overflow-hidden shadow-md border border-gray-300">
+                        <Image src={WaterskiImage} alt="Waterski Image" className="object-cover" />
+                    </div>
                 </div>
+
 
             </div>
         </div>
