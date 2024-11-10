@@ -16,6 +16,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import EditIcon from '../../img/Icon (2).svg';
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
+
 interface TeamMember {
     Fname: string;
     Lname: string;
@@ -44,10 +47,16 @@ export default function ProfilePage() {
                 throw new Error('No token found');
             }
 
-            const response = await axios.get<TeamMember>('http://localhost:4000/auth/profile', {
+            // const response = await axios.get<TeamMember>('http://localhost:4000/auth/profile', {
+            //     headers: {
+            //         Authorization: `Bearer ${token}` // send the token in the request headers to authenticate
+            //     }
+            // });
+
+            const response = await axios.get<TeamMember>(`${APP_URL}api/profile`, {
                 headers: {
-                    Authorization: `Bearer ${token}` // send the token in the request headers to authenticate
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             // console.log('Profile data:', response.data);

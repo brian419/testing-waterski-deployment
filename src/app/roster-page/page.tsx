@@ -8,6 +8,9 @@ import React from 'react';
 import Select, { SingleValue, MultiValue } from 'react-select';
 import { useRouter } from 'next/navigation';
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
+
 const yearOptions = [
     { value: 'Freshman', label: 'Freshman' },
     { value: 'Sophomore', label: 'Sophomore' },
@@ -81,9 +84,15 @@ export default function RosterPage() {
                     throw new Error('No token available');
                 }
 
-                const response = await axios.get<TeamMember[]>('http://localhost:4000/auth/roster', {
+                // const response = await axios.get<TeamMember[]>('http://localhost:4000/auth/roster', {
+                //     headers: {
+                //         'Authorization': `Bearer ${token}`,
+                //     },
+                // });
+
+                const response = await axios.get<TeamMember>(`${APP_URL}api/roster`, {
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
