@@ -157,14 +157,21 @@
 
 
 
+
+
+
+
 import dotenv from 'dotenv';
 import express from 'express';
 import db from '../../db.js';
 import jwt from 'jsonwebtoken';
 
+
 dotenv.config();
 
 const router = express.Router();
+
+
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers['authorization'];
