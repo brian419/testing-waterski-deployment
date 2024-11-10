@@ -10,6 +10,8 @@ import BlankPfp from '../img/blankpfp.svg';
 import { useRouter } from 'next/navigation';
 import ReactDOMServer from 'react-dom/server';
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
 interface SetListReservation {
     Date: string;
     Fname: string;
@@ -56,10 +58,10 @@ const makeReservation = async (date: Date) => {
         }
 
         const payload = {
-            'reserveDate': date.getTime() // assuming you need the timestamp here
+            'reserveDate': date.getTime() 
         };
 
-        await axios.post('http://localhost:4000/auth/setlist', payload, {
+        await axios.post(`${APP_URL}api/setlist`, payload, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -90,7 +92,7 @@ const deleteReservation = async (date: Date) => {
             }
         };
 
-        await axios.delete('http://localhost:4000/auth/setlist', payload);
+        await axios.delete(`${APP_URL}api/setlist`, payload);
 
     } catch (error) {
         console.error('Failed to delete reservation', error);
@@ -256,7 +258,7 @@ export default function SetListPage() {
                     throw new Error('No token available');
                 }
 
-                const response = await axios.get<TeamMember[]>('http://localhost:4000/auth/roster', {
+                const response = await axios.get<TeamMember[]>(`${APP_URL}api/roster`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     },
@@ -284,7 +286,7 @@ export default function SetListPage() {
                     throw new Error('No token found');
                 }
 
-                const response = await axios.get<SetListReservation[]>('http://localhost:4000/auth/setlist', {
+                const response = await axios.get<SetListReservation[]>(`${APP_URL}api/setlist`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
@@ -293,6 +295,7 @@ export default function SetListPage() {
                         endDate: dateRangeEndString
                     }
                 });
+
 
                 setReservations(response.data);
             } catch (error) {

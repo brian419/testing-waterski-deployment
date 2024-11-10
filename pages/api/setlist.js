@@ -184,7 +184,7 @@ const authenticateJWT = (req, res, next) => {
     });
 };
 
-export const getSetList = async (req, res) => {
+const getSetList = async (req, res) => {
     const { startDate, endDate } = req.query;
     console.log("Fetching set list reservations...");
 
@@ -209,7 +209,7 @@ export const getSetList = async (req, res) => {
     });
 };
 
-export const registerReservation = async (req, res) => {
+const registerReservation = async (req, res) => {
     console.log("Reservation started");
     const { reserveDate } = req.body;
 
@@ -233,7 +233,7 @@ export const registerReservation = async (req, res) => {
     });
 };
 
-export const deleteReservation = async (req, res) => {
+const deleteReservation = async (req, res) => {
     console.log("Reservation cancellation");
     const { reserveDate } = req.body;
 
@@ -256,3 +256,18 @@ export const deleteReservation = async (req, res) => {
         });
     });
 };
+
+const setlistHandler = (req, res) => {
+    if (req.method === 'GET') {
+        return getSetList(req, res);
+    } else if (req.method === 'POST') {
+        return registerReservation(req, res);
+    } else if (req.method === 'DELETE') {
+        return deleteReservation(req, res);
+    } else {
+        res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+};
+
+export default setlistHandler;
