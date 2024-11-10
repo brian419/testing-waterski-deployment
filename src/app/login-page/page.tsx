@@ -423,7 +423,7 @@ export default function LoginPage() {
                 </div> */}
 
                 <div className="w-1/2 flex items-center justify-center">
-                    <div className="border-4 border-[#9E1B32] rounded-lg">
+                    <div className="rounded-lg">
                         <Image src={WaterskiImage} alt="Waterski Image" />
                     </div>
                 </div>
