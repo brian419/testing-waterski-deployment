@@ -212,6 +212,11 @@ const registerReservation = async (req, res) => {
     console.log("Reservation started");
     const { reserveDate } = req.body;
 
+
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("Server timezone:", timezone);
+
+
     authenticateJWT(req, res, () => {
         const cwid = req.user.id;
         const date = new Date(reserveDate);
@@ -221,6 +226,8 @@ const registerReservation = async (req, res) => {
         }
 
         const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
+        console.log("Date string:", dateString);
+
         const query = 'INSERT INTO SetList (Date, CWID) VALUES (?, ?)';
 
         db.query(query, [dateString, cwid], (err, result) => {
@@ -231,6 +238,7 @@ const registerReservation = async (req, res) => {
         });
     });
 };
+
 
 const deleteReservation = async (req, res) => {
     console.log("Reservation cancellation");

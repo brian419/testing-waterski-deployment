@@ -177,7 +177,7 @@ const signup = async (req, res) => {
     }
 
     const { email, password, fname, lname, cwid, phone, gradYear, major, pfpimage } = req.body;
-    console.log('req.body for signup:', req.body);
+    // console.log('req.body for signup:', req.body);
 
     try {
         db.query('SELECT * FROM User WHERE Email = ?', [email], async (err, results) => {
