@@ -410,7 +410,17 @@ export default function LoginPage() {
                         style={{ width: '100%', height: 'auto' }}
                     />
                 </div> */}
-                <div className="relative rounded-tl-[55px] rounded-bl-[55px] border-2 border-black" style={{ maxWidth: '100%', height: 'auto' }}>
+                {/* <div className="relative rounded-tl-[55px] rounded-bl-[55px] border-2 border-black" style={{ maxWidth: '100%', height: 'auto' }}>
+                    <div className="overflow-hidden rounded-tl-[53px] rounded-bl-[53px]" style={{ filter: 'blur(0.5px)' }}>
+                        <Image
+                            src={WaterskiImage}
+                            alt="Water ski image"
+                            priority={true}
+                            style={{ width: '100%', height: 'auto', transform: 'scale(1.01)' }} 
+                        />
+                    </div>
+                </div> */}
+                <div className="relative rounded-tl-[55px] rounded-bl-[55px] k" style={{ maxWidth: '100%', height: 'auto' }}>
                     <div className="overflow-hidden rounded-tl-[53px] rounded-bl-[53px]" style={{ filter: 'blur(0.5px)' }}>
                         <Image
                             src={WaterskiImage}
