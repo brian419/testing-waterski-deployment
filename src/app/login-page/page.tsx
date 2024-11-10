@@ -422,21 +422,11 @@ export default function LoginPage() {
                     </div>
                 </div> */}
 
-                <div className="relative border-2 border-black rounded-tl-[55px] rounded-bl-[55px] overflow-hidden" style={{ maxWidth: '100%', height: 'auto' }}>
-                    <div className="w-full h-auto" style={{ boxSizing: 'border-box', transform: 'scale(1.01)' }}>
-                        <Image
-                            src={WaterskiImage}
-                            alt="Water ski image"
-                            priority={true}
-                            style={{ width: '100%', height: 'auto' }}
-                        />
+                <div className="w-1/2 flex items-center justify-center">
+                    <div className="border-4 border-[#9E1B32] rounded-lg">
+                        <Image src={WaterskiImage} alt="Waterski Image" />
                     </div>
                 </div>
-
-
-
-
-
 
             </div>
         </div>
