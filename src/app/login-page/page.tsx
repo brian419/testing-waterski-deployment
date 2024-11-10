@@ -212,15 +212,15 @@ export default function LoginPage() {
         e.preventDefault();
         const endpoint = isLogin ? `${APP_URL}api/login` : `${APP_URL}api/signup`;
         console.log('endpoint:', endpoint);
-    
+
         const payload = isLogin
             ? { email, password }
             : { email, password, fname, lname, cwid, phone, gradYear, major: selectedMajor?.value || '' };
-    
+
         // if (PfpImage && !isLogin) {
         //     payload.pfpimage = PfpImage; 
         // }
-    
+
         try {
             const response = await axios.post(endpoint, payload, {
                 headers: { 'Content-Type': 'application/json' },
@@ -241,7 +241,7 @@ export default function LoginPage() {
             document.getElementById('errorText')!.innerText = errorMessage;
         }
     };
-    
+
 
 
 
@@ -402,14 +402,23 @@ export default function LoginPage() {
 
                 </div>
 
-                <div className="rounded-tl-[55px] rounded-bl-[55px] relative" style={{ maxWidth: '100%', height: 'auto' }}>
+                {/* <div className="rounded-tl-[55px] rounded-bl-[55px] relative" style={{ maxWidth: '100%', height: 'auto' }}>
                     <Image
                         src={WaterskiImage}
                         alt="Water ski image"
                         priority={true}
                         style={{ width: '100%', height: 'auto' }}
                     />
+                </div> */}
+                <div className="rounded-tl-[55px] rounded-bl-[55px] overflow-hidden relative max-w-full h-auto">
+                    <Image
+                        src={WaterskiImage}
+                        alt="Water ski image"
+                        priority={true}
+                        className="w-full h-auto object-cover"
+                    />
                 </div>
+
 
             </div>
         </div>
