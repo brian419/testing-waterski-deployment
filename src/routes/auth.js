@@ -54,7 +54,7 @@ import express from 'express';
 import multer from 'multer';
 import login from '../../pages/api/login.js';
 import signup from '../../pages/api/signup.js';
-import { getRoster } from '../../pages/api/roster.js';
+import getRoster from '../../pages/api/roster.js';
 import { getSetList, registerReservation, deleteReservation } from '../../pages/api/setlist.js';
 import { profile } from '../../pages/api/profile.js';
 import { getMeetingNotes, addMeetingNote, deleteMeetingNote } from '../../pages/api/meetingnotes.js';

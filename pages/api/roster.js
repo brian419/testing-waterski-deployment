@@ -29,7 +29,7 @@ import db from '../../db.js';
 
 const router = express.Router();
 
-export const getRoster = async (req, res) => {
+const getRoster = async (req, res) => {
     db.query('SELECT Fname, Lname, GradYear, MemberType, Major, Phone, Email, PfpImage FROM User', (err, results) => {
         if (err) {
             return res.status(500).json({ message: 'Database error' });
@@ -46,5 +46,7 @@ export const getRoster = async (req, res) => {
         res.status(200).json(rosterWithImages); 
     });
 };
+
+
 
 export default getRoster;

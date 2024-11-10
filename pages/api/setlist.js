@@ -157,7 +157,6 @@
 
 
 
-
 import dotenv from 'dotenv';
 import express from 'express';
 import db from '../../db.js';
@@ -270,4 +269,5 @@ const setlistHandler = (req, res) => {
     }
 };
 
+export { getSetList, registerReservation, deleteReservation };
 export default setlistHandler;
