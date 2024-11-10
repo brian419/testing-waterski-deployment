@@ -4,9 +4,6 @@ import jwt from 'jsonwebtoken';
 import db from '../../db.js';
 
 const login = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // allow any origin to access the API
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');  // allow only POST and OPTIONS request methods
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');  // allow Content-Type and Authorization headers
 
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
