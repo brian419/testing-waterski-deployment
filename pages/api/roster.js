@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../../db');
+import express from 'express';
+import db from '../../db.js';
 
-module.exports.getRoster = async (req, res) => {
+const router = express.Router();
+
+export const getRoster = async (req, res) => {
     db.query('SELECT Fname, Lname, GradYear, MemberType, Major, Phone, Email, PfpImage FROM User', (err, results) => {
         if (err) {
             return res.status(500).json({ message: 'Database error' });

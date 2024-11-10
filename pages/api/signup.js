@@ -111,9 +111,9 @@
 
 
 // v3 allows signup in frontend to work now (besides pfpimage for now)
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const db = require('../../db');
+import 'dotenv/config'; 
+import bcrypt from 'bcrypt';
+import db from '../../db.js';
 
 const signup = async (req, res) => {
     if (req.method !== 'POST') {
