@@ -59,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     </p>
                     <p style="font-size: 16px; line-height: 1.5; margin-top: 20px;">
                         Best regards,<br>
-                        <span style="font-weight: bold; color: #9E1B32;">Jeongbin Son</span>
+                        <span style="font-weight: bold; color: #9E1B32;">UA's Waterski Team</span>
                     </p>
                     <hr style="border: none; border-top: 1px solid #9E1B32; margin-top: 30px;"/>
                     <p style="font-size: 12px; color: #777;">
