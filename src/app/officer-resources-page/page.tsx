@@ -78,10 +78,19 @@ function MeetingNotes({ isEditing, setIsEditing, notes, setNotes }: MeetingNotes
         }
     };
 
+    // const deleteNote = async (id: number) => {
+    //     try {
+    //         // await axios.delete(`http://localhost:4000/auth/meetingnotes/${id}`);
+    //         await axios.delete(`${APP_URL}api/meetingnotes/${id}`);
+    //         fetchNotes();
+    //     } catch (error) {
+    //         console.error("Error deleting note:", error);
+    //     }
+    // };
+
     const deleteNote = async (id: number) => {
         try {
-            // await axios.delete(`http://localhost:4000/auth/meetingnotes/${id}`);
-            await axios.delete(`${APP_URL}api/meetingnotes/${id}`);
+            await axios.delete(`${APP_URL}api/meetingnotes?id=${id}`);
             fetchNotes();
         } catch (error) {
             console.error("Error deleting note:", error);
@@ -184,7 +193,13 @@ export default function OfficerResourcesPage() {
             }
 
             try {
-                const response = await axios.get('http://localhost:4000/auth/profile', {
+                // const response = await axios.get('http://localhost:4000/auth/profile', {
+                //     headers: {
+                //         Authorization: `Bearer ${token}`,
+                //     },
+                // });
+
+                const response = await axios.get(`${APP_URL}api/profile`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
