@@ -423,7 +423,7 @@ export default function LoginPage() {
                 </div> */}
 
                 <div className="relative border-2 border-black rounded-tl-[55px] rounded-bl-[55px] overflow-hidden" style={{ maxWidth: '100%', height: 'auto' }}>
-                    <div className="w-full h-auto" style={{ padding: '1px', transform: 'scale(1.01)' }}>
+                    <div className="w-full h-auto" style={{ boxSizing: 'border-box', transform: 'scale(1.01)' }}>
                         <Image
                             src={WaterskiImage}
                             alt="Water ski image"
@@ -432,6 +432,7 @@ export default function LoginPage() {
                         />
                     </div>
                 </div>
+
 
 
 
