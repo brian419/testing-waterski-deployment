@@ -264,7 +264,7 @@ export default function Navbar() {
 
                 {/* login/logout button */}
                 <div className="hidden md:flex items-center space-x-2 -mr-20">
-                    <Link href="/contact-us-page" className="bg-white-500 text-white text-base py-2 px-2 rounded hover:bg-white hover:text-[#9E1B32] transition duration-300">
+                    <Link href="/contact-us-page" className="bg-white-500 text-white text-base py-2 px-2 rounded hover:text-black hover:underline">
                         Contact Us
                     </Link>
 
